@@ -636,6 +636,26 @@ section {
     pointer-events: none
 }
 
+.eyebrow-hg {
+    color: #fff;
+    background: rgba(14, 43, 43, .45);
+    backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    font-size: 14px;
+}
+
+.eyebrow-white {
+    background: #fff;
+    /* backdrop-filter: blur(6px); */
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 14px;
+    color: #0d1a13;
+    border: 1px solid #ececec;
+}
+
 .cf-card .no {
     position: absolute;
     top: 16px;
@@ -2400,5 +2420,217 @@ footer.site-footer {
     .ft-ico svg {
         width: 18px;
         height: 18px
+    }
+}
+
+/* ===== Sightseeing Spots – photo card with colour bar, details on hover ===== */
+.sp-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-bottom: 8px
+}
+
+.sp-card {
+    position: relative;
+    height: 400px;
+    border-radius: 28px;
+    background: #0e2b2b;
+    color: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    box-shadow: var(--shadow);
+    transition: transform .45s cubic-bezier(.22, .8, .25, 1), box-shadow .45s
+}
+
+.sp-card:hover,
+.sp-card.open {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(14, 43, 43, .22)
+}
+
+.sp-card:focus-visible {
+    box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--accent)
+}
+
+.sp-ph {
+    position: absolute;
+    inset: 0 0 84px 0;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--soft)
+}
+
+.sp-ph img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s cubic-bezier(.22, .8, .25, 1);
+    -webkit-user-drag: none;
+    user-select: none
+}
+
+.sp-card:hover .sp-ph img,
+.sp-card.open .sp-ph img {
+    transform: scale(1.07)
+}
+
+/* soft dark fade at the top so the title always reads */
+.sp-ph::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 55% 0;
+    background: linear-gradient(to bottom, rgba(14, 43, 43, .6), transparent);
+    z-index: 1;
+    pointer-events: none
+}
+
+.sp-title {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.25;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .25)
+}
+
+/* details: hidden until hover / tap */
+.sp-det {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px 22px;
+    background: linear-gradient(to top, rgba(14, 43, 43, .92) 30%, rgba(14, 43, 43, .55));
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity .35s ease, transform .45s cubic-bezier(.22, .8, .25, 1)
+}
+
+.sp-det p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #fff
+}
+
+.sp-card:hover .sp-det,
+.sp-card:focus-visible .sp-det,
+.sp-card.open .sp-det {
+    opacity: 1;
+    transform: none
+}
+
+.sp-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 84px;
+    padding: 0 16px 2px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px
+}
+
+.sp-meta {
+    min-width: 0
+}
+
+.sp-meta strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25
+}
+
+.sp-meta small {
+    display: block;
+    font-size: 12px;
+    opacity: .8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.sp-more {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 99px;
+    background: #fff;
+    color: var(--ink);
+    font: 700 13px Lato, system-ui, sans-serif;
+    cursor: pointer;
+    transition: transform .2s, background .2s, color .2s
+}
+
+.sp-more svg {
+    transition: transform .3s
+}
+
+/* .sp-more:hover {
+    background: var(--ink);
+    color: #fff
+} */
+
+.sp-card:hover .sp-more svg,
+.sp-card.open .sp-more svg {
+    transform: rotate(45deg)
+}
+
+@media (max-width:1080px) {
+    .sp-row {
+        grid-template-columns: repeat(2, 1fr)
+    }
+}
+
+@media (max-width:600px) {
+
+    /* swipe row, like the other carousels */
+    .sp-row {
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        padding: 6px 16px 22px;
+        margin: 0 -16px
+    }
+
+    .sp-row::-webkit-scrollbar {
+        display: none
+    }
+
+    .sp-card {
+        flex: 0 0 min(78vw, 300px);
+        height: 380px;
+        scroll-snap-align: center
+    }
+
+    .sp-card:hover {
+        transform: none
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    .sp-card,
+    .sp-ph img,
+    .sp-det,
+    .sp-more svg {
+        transition: none
     }
 }
